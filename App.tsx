@@ -8,30 +8,38 @@ import { AuthNavigator } from './src/navigation/auth/AuthNavigator';
 
 import { SafeAreaView } from 'react-native';
 
-export default function App() {
+import { AuthProvider } from './src/contexts/AuthContext';
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+import { useAuth } from '../LMS-App/src/contexts/AuthContext';	
+
+
+
+export default function App() {
 
   return (
 
-    <SafeAreaView style={{ flex: 1 }}>
+    <AuthProvider>
 
-      <NavigationContainer>
+      <SafeAreaView style={{ flex: 1 }}>
 
-        {isAuthenticated ? (
+        <NavigationContainer>
 
-          <MainNavigator />
+          <AuthWrapper />
 
-        ) : (
+        </NavigationContainer>
 
-          <AuthNavigator />
+      </SafeAreaView>
 
-        )}
-
-      </NavigationContainer>
-
-    </SafeAreaView>
+    </AuthProvider>
 
   );
 
 }
+
+const AuthWrapper = () => {
+
+  const { user } = useAuth();
+
+  return user ? <MainNavigator /> : <AuthNavigator />;
+
+};
