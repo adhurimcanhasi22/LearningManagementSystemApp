@@ -1,4 +1,3 @@
-Create src/navigation/auth/AuthNavigator.tsx:
 
 import { createStackNavigator } from '@react-navigation/stack';
 
