@@ -1,10 +1,10 @@
 import { useState } from "react";
 
+import { useAuth } from "../../contexts/AuthContext";
+
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { useAuth } from '../../contexts/AuthContext';	
 
 export const LoginScreen = ({ navigation }: any) => {
-
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -15,10 +15,8 @@ export const LoginScreen = ({ navigation }: any) => {
     // Temporary validation
 
     if (email && password) {
-
       login(email, password);
     }
-
   };
 
   return (

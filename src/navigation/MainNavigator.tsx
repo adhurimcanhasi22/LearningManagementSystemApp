@@ -24,6 +24,7 @@ export const MainNavigator = () => {
       <Tab.Screen name="Attendance" component={AttendanceScreen} />
 
       <Tab.Screen name="Results" component={ResultsScreen} />
+      
     </Tab.Navigator>
   );
 };
