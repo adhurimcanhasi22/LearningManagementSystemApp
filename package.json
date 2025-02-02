@@ -1,7 +1,14 @@
 {
+<<<<<<< HEAD
   "name": "learningmanagementsystem",
   "version": "1.0.0",
   "main": "index.js",
+=======
+  "name": "lms-app",
+  "license": "0BSD",
+  "version": "1.0.0",
+  "main": "index.ts",
+>>>>>>> 2113d24 (Created a new Expo app)
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -15,7 +22,13 @@
     "react-native": "0.76.6"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@babel/core": "^7.20.0"
+=======
+    "@babel/core": "^7.25.2",
+    "@types/react": "~18.3.12",
+    "typescript": "^5.3.3"
+>>>>>>> 2113d24 (Created a new Expo app)
   },
   "private": true
 }

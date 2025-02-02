@@ -1,7 +1,12 @@
 {
   "expo": {
+<<<<<<< HEAD
     "name": "LearningManagementSystem",
     "slug": "LearningManagementSystem",
+=======
+    "name": "LMS-App",
+    "slug": "LMS-App",
+>>>>>>> 2113d24 (Created a new Expo app)
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
