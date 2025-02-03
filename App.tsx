@@ -4,15 +4,13 @@ import { MainNavigator } from "./src/navigation/MainNavigator";
 
 import { SafeAreaView } from "react-native";
 
-import { useState } from "react";
-
 import { AuthNavigator } from "./src/navigation/auth/AuthNavigator";
 
 import { AuthProvider, useAuth } from "./src/contexts/AuthContext";
 
-export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+import LoadingScreen from "./src/components/LoadingScreen";
 
+export default function App() {
   return (
     <AuthProvider>
       <SafeAreaView style={{ flex: 1 }}>
@@ -23,8 +21,13 @@ export default function App() {
     </AuthProvider>
   );
 }
+
 const AuthWrapper = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return user ? <MainNavigator /> : <AuthNavigator />;
 };

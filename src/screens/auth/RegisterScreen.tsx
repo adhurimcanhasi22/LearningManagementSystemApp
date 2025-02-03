@@ -11,7 +11,7 @@ export const RegisterScreen = ({ navigation }: any) => {
     // Temporary validation
 
     if (email && password) {
-      navigation.navigate("Main");
+      navigation.navigate("Login");
     }
   };
 
