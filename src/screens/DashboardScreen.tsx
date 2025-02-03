@@ -38,7 +38,10 @@ export const DashboardScreen = () => {
       {/* We'll add more sections later */}
     </ScrollView>
   );
+  
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
