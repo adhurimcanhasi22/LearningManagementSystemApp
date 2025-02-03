@@ -71,7 +71,10 @@ export const TimetableScreen = () => {
 
   return (
     <ScrollView horizontal style={styles.container}>
+      {/* Time column */}
       <View style={styles.timeColumn}>
+        {/* Add a header placeholder with the same height as the day header */}
+        <View style={styles.headerPlaceholder} />
         {timeSlots.map((time) => (
           <TimeSlot key={time} time={time} />
         ))}
@@ -80,7 +83,6 @@ export const TimetableScreen = () => {
       {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((day) => (
         <View key={day} style={styles.dayContainer}>
           <Text style={styles.dayHeader}>{day}</Text>
-
           {getDayColumn(day)}
         </View>
       ))}
@@ -91,33 +93,40 @@ export const TimetableScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: "#fff",
   },
-
   timeColumn: {
     width: 80,
-
     marginRight: 10,
   },
-
+  timeSlot: {
+    height: 60, // Make sure all time slots have the same height
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
+  },
   dayContainer: {
     width: 150,
-
     marginRight: 10,
   },
-
   dayHeader: {
     fontWeight: "bold",
-
     textAlign: "center",
-
     paddingVertical: 8,
-
     backgroundColor: "#f0f0f0",
   },
-
   dayColumn: {
     flex: 1,
+  },
+  headerPlaceholder: {
+    height: 40,
+  },
+  lectureCard: {
+    height: 60, // Ensure that LectureCards also match the TimeSlot height
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
   },
 });
