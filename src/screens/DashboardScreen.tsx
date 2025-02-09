@@ -23,10 +23,9 @@ export const DashboardScreen = () => {
   >([]);
   const [loading, setLoading] = useState(true);
 
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [courses, setCourses] = useState<any[]>([]);
 
-  const { logout } = useAuth(); // The logout function from your auth context
   const navigation = useNavigation();
 
   const handleLogout = async () => {
