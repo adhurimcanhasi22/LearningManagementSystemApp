@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import {
   View,
   Modal,
@@ -8,8 +7,16 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-
 import DateTimePicker from "@react-native-community/datetimepicker";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { addLeaveRequest } from "../../services/leaveService";
+import { db } from "../../config/firebase";
 
 export const LeaveRequestModal = ({ visible, onClose, onSubmit }: any) => {
   const [startDate, setStartDate] = useState(new Date());
@@ -22,16 +29,25 @@ export const LeaveRequestModal = ({ visible, onClose, onSubmit }: any) => {
     null
   );
 
-  const handleSubmit = () => {
-    onSubmit({
-      startDate: startDate.toISOString().split("T")[0],
+  const handleSubmit = async () => {
+    if (!reason.trim()) return;
 
-      endDate: endDate.toISOString().split("T")[0],
+    const user = getAuth().currentUser; // Get current user
+    if (!user) return;
 
-      reason,
-
-      status: "pending",
-    });
+    try {
+      await addDoc(collection(db, "leaveRequests"), {
+        startDate: startDate.toISOString().split("T")[0],
+        endDate: endDate.toISOString().split("T")[0],
+        reason,
+        status: "pending",
+        userId: user.uid, // Store the user's ID
+      });
+      console.log("Leave request submitted!");
+      onClose();
+    } catch (error) {
+      console.error("Error submitting leave request:", error);
+    }
   };
 
   return (
