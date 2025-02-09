@@ -7,6 +7,10 @@ import React, {
   ReactNode,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { db } from "../config/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 // Define user type
 interface User {
@@ -71,44 +75,61 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Login function
   const login = async (email: string, password: string) => {
     try {
-      // Simulate API call
-      const mockResponse = await new Promise<{ token: string; user: User }>(
-        (resolve) =>
-          setTimeout(
-            () =>
-              resolve({
-                token: `fake-jwt-token-${
-                  email.includes("@teacher") ? "teacher" : "student"
-                }`,
-                user: {
-                  id: "1",
-                  name: email.split("@")[0],
-                  email,
-                  role: email.includes("@teacher") ? "teacher" : "student",
-                },
-              }),
-            1000
-          )
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
+      const firebaseUser = userCredential.user;
 
-      // Store token and user data
-      await AsyncStorage.setItem("userToken", mockResponse.token);
-      setUser(mockResponse.user);
+      // Get additional user data from Firestore
+      const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+
+      const userData: User = {
+        id: firebaseUser.uid,
+        name: userDoc.data()?.name || "",
+        email: firebaseUser.email || "",
+        role: userDoc.data()?.role || "student",
+      };
+
+      await AsyncStorage.setItem("userToken", await firebaseUser.getIdToken());
+      setUser(userData);
     } catch (error) {
-      console.error("Login failed:", error);
-      throw new Error("Login failed. Please check your credentials.");
+      console.error("Login error:", error);
+      throw error;
     }
   };
 
-  // Logout function
   const logout = async () => {
     try {
+      await signOut(auth);
       await AsyncStorage.removeItem("userToken");
       setUser(null);
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error("Logout error:", error);
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      if (firebaseUser) {
+        const token = await firebaseUser.getIdToken();
+        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+
+        setUser({
+          id: firebaseUser.uid,
+          name: userDoc.data()?.name || "",
+          email: firebaseUser.email || "",
+          role: userDoc.data()?.role || "student",
+        });
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, isLoading, login, logout }}>

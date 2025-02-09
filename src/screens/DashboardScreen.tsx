@@ -1,8 +1,36 @@
 import { View, ScrollView, StyleSheet, Text } from "react-native";
-
+import { useEffect, useState } from "react";
+import { fetchCourses } from "../services/api";
+import { useAuth } from "../contexts/AuthContext";
 import { QuickAccessCard } from "../components/dashboard/QuickAccessCard";
+import { db } from "../config/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { fetchUserCourses } from "../services/courses";
 
 export const DashboardScreen = () => {
+  const { user } = useAuth();
+  const [courses, setCourses] = useState<any[]>([]);
+
+  //test test
+  const testFirestore = async () => {
+    try {
+      const docRef = doc(db, "test", "message");
+      const docSnap = await getDoc(docRef);
+      console.log("Firestore test data:", docSnap.data());
+    } catch (error) {
+      console.error("Firestore error:", error);
+    }
+  };
+  //test test
+
+  // DashboardScreen.tsx
+  useEffect(() => {
+    if (user) {
+      fetchUserCourses(user.id)
+        .then((courses) => setCourses(courses))
+        .catch(console.error);
+    }
+  }, [user]);
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Dashboard</Text>
@@ -38,10 +66,7 @@ export const DashboardScreen = () => {
       {/* We'll add more sections later */}
     </ScrollView>
   );
-  
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
