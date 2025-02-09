@@ -13,6 +13,7 @@ interface LeaveRequest {
   reason: string;
   status: "Pending" | "Approved" | "Rejected";
   id: string;
+  displayName: string;
 }
 
 export const LeaveRequestCard = ({
@@ -24,6 +25,9 @@ export const LeaveRequestCard = ({
 }) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
+      <View style={styles.dateContainer}>
+        <Text style={styles.date}>{request.displayName}</Text>
+      </View>
       <View style={styles.dateContainer}>
         <Text style={styles.date}>
           {request.startDate} to {request.endDate}

@@ -64,6 +64,7 @@ export const DashboardScreen = () => {
               endDate: data.endDate,
               reason: data.reason,
               status: data.status,
+              displayName: data.displayName,
             };
           });
           setLeaveRequests(leaveRequestsData);
@@ -129,6 +130,7 @@ export const DashboardScreen = () => {
               endDate: request.endDate,
               reason: request.reason,
               status: request.status,
+              displayName: request.displayName,
             }}
             onPress={() => console.log("Leave request pressed")}
           />

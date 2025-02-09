@@ -42,6 +42,7 @@ export const LeaveRequestModal = ({ visible, onClose, onSubmit }: any) => {
         reason,
         status: "pending",
         userId: user.uid, // Store the user's ID
+        displayName: user.displayName, // Assuming the user's name is stored in displayName
       });
       console.log("Leave request submitted!");
       onClose();
