@@ -1,9 +1,7 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-import FirebaseApp from "@react-native-firebase/app";
-import { firebase } from "@react-native-firebase/messaging";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -17,13 +15,10 @@ const firebaseConfig = {
   appId: "1:529692450659:web:3e798143cfa27439f5fd56",
   measurementId: "G-EHR7LXZFVK",
 };
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 
-const app = initializeApp(firebaseConfig);
+// Ensure Firebase is initialized only once
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-const messaging = getMessaging(app);
-export { getToken, onMessage, messaging };

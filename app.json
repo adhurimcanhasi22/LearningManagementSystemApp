@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "notification": {
       "vapidPublicKey": "BGWb74MQ5EkSXytkPJTq_Xvyqymj58nMGi7Y_fN6QTMW2EyEk0Sxa9zb-nrep-ijCPa3u-6xrGMOajU9_ne9Rug",
-      "serviceWorkerPath": "./public/service-worker.js"
+      "serviceWorkerPath": "expo-service-worker.js"
     },
     "orientation": "portrait",
     "icon": "./assets/icon.png",

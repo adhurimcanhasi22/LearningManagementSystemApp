@@ -10,6 +10,10 @@ import { AttendanceScreen } from "../screens/AttendanceScreen";
 
 import { ResultsScreen } from "../screens/ResultsScreen";
 
+import { ChatScreen } from "../screens/ChatScreen";
+
+import { FilesUploadDownload } from "../screens/FilesUploadDownload";
+
 const Tab = createBottomTabNavigator();
 
 export const MainNavigator = () => {
@@ -19,12 +23,16 @@ export const MainNavigator = () => {
 
       <Tab.Screen name="Timetable" component={TimetableScreen} />
 
+      <Tab.Screen name="Chat" component={ChatScreen} />
+
       <Tab.Screen name="Courses" component={CoursesScreen} />
 
       <Tab.Screen name="Attendance" component={AttendanceScreen} />
 
       <Tab.Screen name="Results" component={ResultsScreen} />
-      
+
+      <Tab.Screen name="Files" component={FilesUploadDownload} />
+
     </Tab.Navigator>
   );
 };
