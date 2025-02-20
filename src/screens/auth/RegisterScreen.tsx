@@ -20,19 +20,36 @@ export const RegisterScreen = ({ navigation }: any) => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleRegister = () => {
-    if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
-      Alert.alert("Error", "Please fill out all the fields.");
+    console.log("Register button pressed!"); // Debugging log
+
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !phone ||
+      !password ||
+      !confirmPassword
+    ) {
+      console.log("Missing fields!"); // Debugging log
+      setTimeout(() => {
+        Alert.alert("Error", "Please fill out all the fields.");
+      }, 100); // Small delay to ensure alert appears
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match.");
+      console.log("Passwords do not match!"); // Debugging log
+      setTimeout(() => {
+        Alert.alert("Error", "Passwords do not match.");
+      }, 100);
       return;
     }
 
-    // Simulate successful registration
-    Alert.alert("Success", "Your account will be ready after a review.");
-    
+    console.log("Registration successful!"); // Debugging log
+    setTimeout(() => {
+      Alert.alert("Success", "Your account will be ready after a review.");
+    }, 100);
+
     // Clear fields after successful registration
     setFirstName("");
     setLastName("");
@@ -45,7 +62,7 @@ export const RegisterScreen = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
-      
+
       <TextInput
         style={styles.input}
         placeholder="First Name"
@@ -66,7 +83,7 @@ export const RegisterScreen = ({ navigation }: any) => {
         value={email}
         onChangeText={setEmail}
       />
-      
+
       <View style={styles.phoneContainer}>
         <Picker
           selectedValue={countryCode}
@@ -84,7 +101,7 @@ export const RegisterScreen = ({ navigation }: any) => {
           onChangeText={setPhone}
         />
       </View>
-      
+
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -99,10 +116,13 @@ export const RegisterScreen = ({ navigation }: any) => {
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
-      
+
       <Button title="Register" onPress={handleRegister} />
-      
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.backButton}
+      >
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
     </View>

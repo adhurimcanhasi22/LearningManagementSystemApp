@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Image, View } from "react-native";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 
 export const FilesScreen = () => {
@@ -37,26 +37,31 @@ export const FilesScreen = () => {
     }
   };
 
-  const pickImage = () => {
-    launchImageLibrary({ mediaType: "photo" }, async (response) => {
-      if (response.didCancel) {
-        console.log("User canceled image picker");
-      } else if (response.errorCode) {
-        console.log("ImagePicker Error: ", response.errorCode);
-      } else {
-        if (response.assets && response.assets.length > 0) {
-          const { uri } = response.assets[0];
-          if (uri) {
-            setImageUri(uri);
-            await uploadImageToCloudinary(uri);
-          } else {
-            console.log("URI is undefined");
-          }
-        } else {
-          console.log("No assets found in the response");
-        }
-      }
+  const pickImage = async () => {
+    // Request permission to access the image library
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    // Launch the image picker
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 1,
     });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const { uri } = result.assets[0];
+      if (uri) {
+        setImageUri(uri);
+        await uploadImageToCloudinary(uri);
+      }
+    } else {
+      console.log("No image selected or the user canceled.");
+    }
   };
 
   return (
