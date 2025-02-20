@@ -12,7 +12,7 @@ import { ResultsScreen } from "../screens/ResultsScreen";
 
 import { ChatScreen } from "../screens/ChatScreen";
 
-import { FilesUploadDownload } from "../screens/FilesUploadDownload";
+import { FilesScreen } from "../screens/FilesUploadDownload";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +31,7 @@ export const MainNavigator = () => {
 
       <Tab.Screen name="Results" component={ResultsScreen} />
 
-      <Tab.Screen name="Files" component={FilesUploadDownload} />
+      <Tab.Screen name="Files" component={FilesScreen} />
 
     </Tab.Navigator>
   );
