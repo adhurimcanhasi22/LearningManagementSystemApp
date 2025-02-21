@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
+    color: "#0066ff",
   },
   logoutButton: {
     backgroundColor: "#0066ff",

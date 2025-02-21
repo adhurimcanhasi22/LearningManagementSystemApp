@@ -14,27 +14,27 @@ type AttendanceRecord = {
 };
 
 const mockAttendance: AttendanceRecord = {
-  "2023-08-15": {
+  "2025-02-15": {
     marked: true,
     dotColor: "#2ecc71",
     selected: true,
     selectedColor: "#2ecc71",
   },
-  "2023-08-16": { marked: true, dotColor: "#e74c3c" },
-  "2023-08-17": { marked: true, dotColor: "#f1c40f" },
-  "2023-08-18": { marked: true, dotColor: "#f39c12", event: "Lecture" },
-  "2023-08-19": { marked: true, dotColor: "#9b59b6", event: "Exam" },
+  "2025-01-16": { marked: true, selected: true, dotColor: "#e74c3c" },
+  "2025-0-01": { marked: true, dotColor: "#f1c40f" },
+  "2025-02-04": { marked: true, dotColor: "#f39c12", event: "Lecture" },
+  "2025-02-28": { marked: true, dotColor: "#9b59b6", event: "Exam" },
 };
 
 const calendarTheme: any = {
   backgroundColor: "#ffffff",
   calendarBackground: "#ffffff",
   selectedDayBackgroundColor: "#1abc9c",
-  todayTextColor: "#1abc9c",
+  todayTextColor: "#0066ff",
   dayTextColor: "#2d3436",
   textDisabledColor: "#d9e1e8",
-  monthTextColor: "#2d3436",
-  arrowColor: "#1abc9c",
+  monthTextColor: "#0066ff",
+  arrowColor: "#0066ff",
 };
 
 export const AttendanceScreen = () => {
