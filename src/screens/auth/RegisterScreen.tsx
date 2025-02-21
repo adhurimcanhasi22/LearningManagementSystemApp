@@ -127,13 +127,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f4f6fc", // Light background
+    backgroundColor: "#f4f6fc",
     padding: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#333",
+    color: "#0066ff",
     marginBottom: 20,
   },
   input: {
@@ -150,22 +150,27 @@ const styles = StyleSheet.create({
   phoneContainer: {
     flexDirection: "row",
     alignItems: "center",
+    width: "100%", // Ensure full width
+    borderWidth: 1,
+    borderColor: "#ddd",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 10,
     marginBottom: 15,
   },
   picker: {
-    height: 40,
-    marginRight: 10,
-    borderRadius: 12
+    width: 100, // Ensure visibility
+    height: 50, // Ensure height
+    borderRadius: 12,
+    borderWidth: 1, // Make border visible
+    borderColor: "#ddd",
   },
   phoneInput: {
-    flex: 1,
-    height: 40,
-    backgroundColor: "#fff",
-    borderRadius: 12,
+    flex: 1, // Take up remaining space
+    height: 50, // Match picker height
     paddingHorizontal: 15,
     fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#ddd",
+    backgroundColor: "#fff",
   },
   registerButton: {
     width: "100%",

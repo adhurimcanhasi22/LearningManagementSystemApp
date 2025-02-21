@@ -1,41 +1,22 @@
 import React, { useState } from "react";
-import { TouchableOpacity, Text, Image, View, StyleSheet } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  Dimensions,
+  Alert,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import axios from "axios";
+import * as DocumentPicker from "expo-document-picker";
+
+const { width } = Dimensions.get("window");
 
 export const FilesScreen = () => {
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-
-  const cloudinaryUrl =
-    "CLOUDINARY_URL=cloudinary://469518284842138:flSfmzAYC4Ydz_OaDCGdMz94mUo@dvuso9vhe"; // Replace with your cloud name
-
-  const uploadImageToCloudinary = async (uri: string) => {
-    const data = new FormData();
-    const file = {
-      uri: uri,
-      type: "image/png", // Adjust depending on your image type
-      name: "image.png", // You can use dynamic names as needed
-    };
-    data.append("file", {
-      uri: file.uri,
-      type: file.type,
-      name: file.name,
-    } as any);
-    data.append("upload_preset", "ml_default"); // Replace with your upload preset
-
-    try {
-      const response = await axios.post(cloudinaryUrl, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response.data);
-      setUploadedImageUrl(response.data.secure_url); // URL of the uploaded image
-    } catch (error) {
-      console.error("Error uploading image to Cloudinary", error);
-    }
-  };
+  const [fileUri, setFileUri] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const pickImage = async () => {
     const permissionResult =
@@ -49,19 +30,41 @@ export const FilesScreen = () => {
       allowsEditing: false,
       quality: 1,
     });
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const { uri } = result.assets[0];
-      if (uri) {
-        setImageUri(uri);
-        await uploadImageToCloudinary(uri);
-      }
+    if (!result.canceled && result.assets.length > 0) {
+      setImageUri(result.assets[0].uri);
     } else {
-      console.log("No image selected or the user canceled.");
+      console.log("No image selected or user canceled.");
     }
+  };
+
+  const pickFile = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: "*/*", // Accept any file type
+      copyToCacheDirectory: false,
+    });
+
+    if (result.canceled) {
+      console.log("No file selected or user canceled.");
+      return;
+    }
+
+    setFileUri(result.assets[0].uri);
+    setFileName(result.assets[0].name);
+  };
+
+  const handleUpload = () => {
+    // Clear selected files
+    setImageUri(null);
+    setFileUri(null);
+    setFileName(null);
+
+    // Show success message
+    Alert.alert("Success", "Files uploaded to the school database.");
   };
 
   return (
     <View style={styles.container}>
+      {/* Image Picker */}
       <TouchableOpacity style={styles.button} onPress={pickImage}>
         <Text style={styles.buttonText}>Pick an Image</Text>
       </TouchableOpacity>
@@ -70,13 +73,22 @@ export const FilesScreen = () => {
           <Image source={{ uri: imageUri }} style={styles.imagePreview} />
         </View>
       )}
-      {uploadedImageUrl && (
-        <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: uploadedImageUrl }}
-            style={styles.imagePreview}
-          />
+
+      {/* File Picker */}
+      <TouchableOpacity style={styles.button} onPress={pickFile}>
+        <Text style={styles.buttonText}>Pick a File</Text>
+      </TouchableOpacity>
+      {fileUri && (
+        <View style={styles.fileContainer}>
+          <Text style={styles.fileText}>📄 {fileName}</Text>
         </View>
+      )}
+
+      {/* Upload Button (Only Shows If There’s a File or Image) */}
+      {(imageUri || fileUri) && (
+        <TouchableOpacity style={styles.uploadButton} onPress={handleUpload}>
+          <Text style={styles.uploadButtonText}>Upload to Database</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -85,7 +97,7 @@ export const FilesScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f6fc", // Soft modern background
+    backgroundColor: "#f4f6fc",
     padding: 16,
     alignItems: "center",
   },
@@ -100,6 +112,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     marginBottom: 20,
+    width: width * 0.8,
+    alignItems: "center",
   },
   buttonText: {
     color: "#fff",
@@ -107,7 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   imageContainer: {
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 12,
     overflow: "hidden",
     elevation: 3,
@@ -117,4 +131,37 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 12,
   },
+  fileContainer: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 8,
+    width: width * 0.8,
+    alignItems: "center",
+  },
+  fileText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#333",
+  },
+  uploadButton: {
+    marginTop: 20,
+    backgroundColor: "#27ae60",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    width: width * 0.8,
+    alignItems: "center",
+  },
+  uploadButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+  },
 });
+

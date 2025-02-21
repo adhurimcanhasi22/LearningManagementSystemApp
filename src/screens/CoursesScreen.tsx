@@ -14,14 +14,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 const mockCourses = [
   {
     id: "1",
-    name: "Mathematics 101",
+    name: "Mathematics",
     materials: [
-      { id: "1", type: "pdf", title: "Algebra Basics", date: "2023-08-15" },
+      { id: "1", type: "pdf", title: "Algebra Basics", date: "2024-09-16" },
       {
         id: "2",
         type: "video",
         title: "Lecture 1: Introduction",
-        date: "2023-08-16",
+        date: "2024-09-16",
       },
     ],
   },
@@ -29,24 +29,24 @@ const mockCourses = [
     id: "2",
     name: "Physics Fundamentals",
     materials: [
-      { id: "3", type: "pdf", title: "Kinematics Notes", date: "2023-08-14" },
+      { id: "3", type: "pdf", title: "Kinematics Notes", date: "2025-01-10" },
     ],
   },
   {
     id: "3",
-    name: "Computer Science 101",
+    name: "Computer Science",
     materials: [
       {
         id: "4",
         type: "pdf",
         title: "Intro to Programming",
-        date: "2023-08-17",
+        date: "2024-10-18",
       },
       {
         id: "5",
         type: "video",
         title: "Lecture 1: Basics",
-        date: "2023-08-18",
+        date: "2024-10-18",
       },
     ],
   },
@@ -54,8 +54,8 @@ const mockCourses = [
     id: "4",
     name: "Data Structures",
     materials: [
-      { id: "6", type: "pdf", title: "Arrays & Lists", date: "2023-08-19" },
-      { id: "7", type: "video", title: "Lecture 2: Trees", date: "2023-08-20" },
+      { id: "6", type: "pdf", title: "Arrays & Lists", date: "2024-11-19" },
+      { id: "7", type: "video", title: "Lecture 2: Trees", date: "2023-11-20" },
     ],
   },
   {
@@ -72,7 +72,7 @@ const mockCourses = [
         id: "9",
         type: "video",
         title: "Lecture 3: Graph Algorithms",
-        date: "2023-08-22",
+        date: "2023-12-22",
       },
     ],
   },
@@ -105,7 +105,7 @@ export const CoursesScreen = () => {
                   expandedCourse === course.id ? "expand-less" : "expand-more"
                 }
                 size={24}
-                color="#2c3e50"
+                color="#0066ff"
               />
             </TouchableOpacity>
 

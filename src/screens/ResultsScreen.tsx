@@ -4,16 +4,18 @@ import { LineChart } from "react-native-chart-kit";
 import { useAuth } from "../contexts/AuthContext";
 import { SectionList } from "../components/results/SectionList";
 
-const chartWidth = Dimensions.get("window").width - 32; // subtracting container padding
+const chartWidth = Dimensions.get("window").width - 48; // Reduced width slightly
 
 const mockResults = {
   student: [
     {
-      semester: "Fall 2023",
+      semester: "Fall 2024",
       data: [
-        { subject: "Mathematics", marks: 85 },
+        { subject: "Mathematics", marks: 95 },
         { subject: "Physics", marks: 78 },
-        { subject: "Chemistry", marks: 82 },
+        { subject: "Computer Science", marks: 80 },
+        { subject: "Data Structure", marks: 75 },
+        { subject: "Algorithms", marks: 82 },
       ],
     },
   ],
@@ -60,7 +62,7 @@ export const ResultsScreen = () => {
                 labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               }}
               bezier
-              style={styles.chart}
+              style={{ ...styles.chart, alignSelf: "center" }}
             />
           </View>
         </>
@@ -87,7 +89,7 @@ export const ResultsScreen = () => {
               labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             }}
             bezier
-            style={styles.chart}
+            style={{ ...styles.chart, alignSelf: "center" }}
           />
         </View>
       )}
@@ -98,7 +100,7 @@ export const ResultsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f6fc", // Soft modern background
+    backgroundColor: "#f4f6fc",
     padding: 16,
   },
   screenHeader: {
@@ -113,7 +115,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 20,
-    // Subtle shadow for a modern card feel
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

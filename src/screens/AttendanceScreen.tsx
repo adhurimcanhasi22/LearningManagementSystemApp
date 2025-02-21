@@ -14,11 +14,41 @@ type AttendanceRecord = {
 };
 
 const mockAttendance: AttendanceRecord = {
-  "2025-02-15": {
+  "2025-02-27": {
     marked: true,
     dotColor: "#2ecc71",
     selected: true,
     selectedColor: "#2ecc71",
+  },
+  "2025-02-14": {
+    marked: true,
+    dotColor: "#2ecc71",
+    selected: true,
+    selectedColor: "#2ecc71",
+  },
+  "2025-02-26": {
+    marked: true,
+    dotColor: "#2ecc71",
+    selected: true,
+    selectedColor: "#2ecc71",
+  },
+  "2025-02-19": {
+    marked: true,
+    dotColor: "#e74c3c",
+    selected: true,
+    selectedColor: "#e74c3c",
+  },
+  "2025-02-18": {
+    marked: true,
+    dotColor: "#2ecc71",
+    selected: true,
+    selectedColor: "#2ecc71",
+  },
+  "2025-02-10": {
+    marked: true,
+    dotColor: "#e74c3c",
+    selected: true,
+    selectedColor: "#e74c3c",
   },
   "2025-01-16": {
     marked: true,

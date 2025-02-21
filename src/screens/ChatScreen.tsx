@@ -12,7 +12,7 @@ export const ChatScreen = () => {
   const [messages, setMessages] = useState<IMessage[]>([
     {
       _id: 1,
-      text: "Welcome to the live chat!",
+      text: "Welcome to the live chat! \n  An agent will be with you in any moment.",
       createdAt: new Date(),
       user: {
         _id: 2,

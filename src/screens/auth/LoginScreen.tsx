@@ -21,7 +21,9 @@ export const LoginScreen = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>LEARNING MANAGEMENT SYSTEM</Text>
+      </View>
       <Text style={styles.subtitle}>Log in to continue</Text>
 
       <TextInput
@@ -61,11 +63,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#f4f6fc", // Light background
     padding: 20,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
+  titleContainer: {
+    alignItems: "center", 
     marginBottom: 5,
+    paddingHorizontal: 20, // Prevents title from stretching too wide
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#0066ff",
+    textAlign: "center", // Ensures the text is centered inside the View
   },
   subtitle: {
     fontSize: 16,
@@ -98,7 +105,7 @@ const styles = StyleSheet.create({
   },
   registerText: {
     marginTop: 15,
-    fontSize: 14,
+    fontSize: 17,
     color: "#0066ff",
   },
 });

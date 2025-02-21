@@ -16,32 +16,53 @@ const timeSlots = [
 
 const lectures = [
   {
-    day: "Monday",
+    day: "Tuesday",
     startTime: "9:00 AM",
     endTime: "10:30 AM",
     course: "Mathematics",
-    room: "Room 301",
+    room: "Room 303",
   },
   {
     day: "Monday",
     startTime: "2:00 PM",
     endTime: "3:30 PM",
-    course: "Physics",
+    course: "Physics Fundamentals",
+    room: "Lab 205",
+  },
+  {
+    day: "Monday",
+    startTime: "12:00 PM",
+    endTime: "1:30 PM",
+    course: "Physics Fundamentals Ex.",
     room: "Lab 205",
   },
   {
     day: "Wednesday",
-    startTime: "13:00 PM",
-    endTime: "14:30 PM",
-    course: "IT Engineering",
+    startTime: "1:00 PM",
+    endTime: "2:30 PM",
+    course: "Data Structures",
+    room: "Room 300",
+  },
+  {
+    day: "Thursday",
+    startTime: "10:00 AM",
+    endTime: "11:30 AM",
+    course: "Computer Science",
+    room: "Room 301",
+  },
+  {
+    day: "Thursday",
+    startTime: "12:00 PM",
+    endTime: "1:30 PM",
+    course: "Computer Science Ex.",
     room: "Room 301",
   },
   {
     day: "Friday",
-    startTime: "8:30 AM",
-    endTime: "10:45 AM",
-    course: "Web Programming",
-    room: "Room 301",
+    startTime: "8:00 AM",
+    endTime: "10:00 AM",
+    course: "Algorithms",
+    room: "Room 306",
   },
 ];
 
@@ -93,6 +114,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f4f6fc", // Modern light background
     padding: 10,
+    marginTop: 40, // Pushes timetable lower
+    paddingBottom: 60, // Adds bottom space
+    minHeight: "100%", // Ensures the timetable extends properly
   },
   timeColumn: {
     width: 80,
