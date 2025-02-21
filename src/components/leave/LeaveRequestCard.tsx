@@ -2,9 +2,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const statusColors = {
-  Pending: "#fff700",
-  Approved: "#2ecc71",
-  Rejected: "#e74c3c",
+  Pending: "#ffcc00", // Yellow
+  Approved: "#2ecc71", // Green
+  Rejected: "#e74c3c", // Red
 };
 
 interface LeaveRequest {
@@ -25,25 +25,22 @@ export const LeaveRequestCard = ({
 }) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-      <View style={styles.dateContainer}>
-        <Text style={styles.date}>{request.displayName}</Text>
-      </View>
-      <View style={styles.dateContainer}>
-        <Text style={styles.date}>
-          {request.startDate} to {request.endDate}
-        </Text>
+      <View style={styles.header}>
+        <Text style={styles.displayName}>{request.displayName}</Text>
+        <View
+          style={[
+            styles.status,
+            { backgroundColor: statusColors[request.status] },
+          ]}
+        >
+          <Text style={styles.statusText}>{request.status}</Text>
+        </View>
       </View>
 
+      <Text style={styles.date}>
+        {request.startDate} → {request.endDate}
+      </Text>
       <Text style={styles.reason}>{request.reason}</Text>
-
-      <View
-        style={[
-          styles.status,
-          { backgroundColor: statusColors[request.status] },
-        ]}
-      >
-        <Text style={styles.statusText}>{request.status}</Text>
-      </View>
     </TouchableOpacity>
   );
 };
@@ -52,54 +49,49 @@ const styles = StyleSheet.create({
   card: {
     padding: 16,
     marginVertical: 8,
-    borderRadius: 8,
-    backgroundColor: "#ffffff",
+    borderRadius: 12,
+    backgroundColor: "#fff",
     shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
+    borderLeftWidth: 5, // Adds a left highlight
+    borderColor: "#3498db",
   },
-
-  dateContainer: {
+  header: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 8,
-    backgroundColor: "#3498db",
-    alignSelf: "flex-start",
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 4,
+    marginBottom: 5,
   },
-
+  displayName: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#333",
+  },
   date: {
-    color: "#fff", // Blue for the dates
-    fontWeight: "bold",
-  },
-
-  reason: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-    backgroundColor: "#59ff00",
-    alignSelf: "flex-start",
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 4,
-    fontWeight: "bold",
     fontSize: 14,
+    color: "#555",
+    marginBottom: 6,
   },
-
+  reason: {
+    fontSize: 14,
+    fontStyle: "italic",
+    color: "#666",
+    paddingHorizontal: 10,
+    backgroundColor: "#f1f1f1",
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
   status: {
-    alignSelf: "flex-start",
     paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 4,
+    paddingHorizontal: 10,
+    borderRadius: 6,
   },
-
   statusText: {
-    color: "#000000",
     fontSize: 12,
     fontWeight: "bold",
+    color: "#fff",
   },
 });

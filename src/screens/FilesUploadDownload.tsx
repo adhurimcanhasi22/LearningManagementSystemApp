@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Button, Image, View } from "react-native";
+import { TouchableOpacity, Text, Image, View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 
 export const FilesScreen = () => {
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   const cloudinaryUrl =
     "CLOUDINARY_URL=cloudinary://469518284842138:flSfmzAYC4Ydz_OaDCGdMz94mUo@dvuso9vhe"; // Replace with your cloud name
@@ -38,21 +38,17 @@ export const FilesScreen = () => {
   };
 
   const pickImage = async () => {
-    // Request permission to access the image library
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
       alert("Permission to access camera roll is required!");
       return;
     }
-
-    // Launch the image picker
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       quality: 1,
     });
-
     if (!result.canceled && result.assets && result.assets.length > 0) {
       const { uri } = result.assets[0];
       if (uri) {
@@ -65,19 +61,60 @@ export const FilesScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, padding: 10 }}>
-      <Button title="Pick an Image" onPress={pickImage} />
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={pickImage}>
+        <Text style={styles.buttonText}>Pick an Image</Text>
+      </TouchableOpacity>
       {imageUri && (
-        <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 }} />
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: imageUri }} style={styles.imagePreview} />
+        </View>
       )}
       {uploadedImageUrl && (
-        <View style={{ marginTop: 20 }}>
+        <View style={styles.imageContainer}>
           <Image
             source={{ uri: uploadedImageUrl }}
-            style={{ width: 200, height: 200 }}
+            style={styles.imagePreview}
           />
         </View>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f4f6fc", // Soft modern background
+    padding: 16,
+    alignItems: "center",
+  },
+  button: {
+    backgroundColor: "#3498db",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  imageContainer: {
+    marginTop: 20,
+    borderRadius: 12,
+    overflow: "hidden",
+    elevation: 3,
+  },
+  imagePreview: {
+    width: 200,
+    height: 200,
+    borderRadius: 12,
+  },
+});

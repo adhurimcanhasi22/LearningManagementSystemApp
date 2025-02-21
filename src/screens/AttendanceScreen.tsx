@@ -20,7 +20,12 @@ const mockAttendance: AttendanceRecord = {
     selected: true,
     selectedColor: "#2ecc71",
   },
-  "2025-01-16": { marked: true, selected: true, dotColor: "#e74c3c" },
+  "2025-01-16": {
+    marked: true,
+    selected: true,
+    selectedColor: "#e74c3c",
+    dotColor: "#e74c3c",
+  },
   "2025-0-01": { marked: true, dotColor: "#f1c40f" },
   "2025-02-04": { marked: true, dotColor: "#f39c12", event: "Lecture" },
   "2025-02-28": { marked: true, dotColor: "#9b59b6", event: "Exam" },
@@ -29,7 +34,7 @@ const mockAttendance: AttendanceRecord = {
 const calendarTheme: any = {
   backgroundColor: "#ffffff",
   calendarBackground: "#ffffff",
-  selectedDayBackgroundColor: "#1abc9c",
+  selectedDayBackgroundColor: "#0066ff",
   todayTextColor: "#0066ff",
   dayTextColor: "#2d3436",
   textDisabledColor: "#d9e1e8",

@@ -15,19 +15,15 @@ export const TimeSlot = ({ time }: TimeSlotProps) => {
 const styles = StyleSheet.create({
   container: {
     height: 60,
-
     borderBottomWidth: 1,
-
-    borderColor: "#ddd",
-
+    borderColor: "#ccc",
     justifyContent: "center",
-
-    paddingLeft: 8,
+    paddingLeft: 12,
+    backgroundColor: "#f9f9f9", // Lighter background for better contrast
   },
-
   text: {
-    color: "#666",
-
-    fontSize: 12,
+    color: "#444", // Darker for readability
+    fontSize: 14, // Slightly larger for better visibility
+    fontWeight: "500",
   },
 });
