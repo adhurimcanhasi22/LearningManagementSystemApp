@@ -3,35 +3,28 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  Button,
-  FlatList,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import { useEffect, useState } from "react";
-import { fetchCourses } from "../services/api";
+import { fetchUserCourses } from "../services/courses";
 import { useAuth } from "../contexts/AuthContext";
 import { QuickAccessCard } from "../components/dashboard/QuickAccessCard";
 import { db } from "../config/firebase";
-import { doc, getDocs, collection } from "firebase/firestore";
-import { fetchUserCourses } from "../services/courses";
-import { useNavigation } from "@react-navigation/native";
-import firestore from "firebase/firestore";
+import { getDocs, collection } from "firebase/firestore";
 import { LeaveRequestCard } from "../components/leave/LeaveRequestCard";
-export const DashboardScreen = () => {
-  const [leaveRequests, setLeaveRequests] = useState<
-    { id: string; [key: string]: any }[]
-  >([]);
-  const [loading, setLoading] = useState(true);
+import { useNavigation } from "@react-navigation/native";
 
+export const DashboardScreen = () => {
+  const [leaveRequests, setLeaveRequests] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const { user, logout } = useAuth();
   const [courses, setCourses] = useState<any[]>([]);
-
   const navigation = useNavigation();
 
   const handleLogout = async () => {
     try {
       await logout();
-      // Reset navigation so that the user is taken to the login screen:
       navigation.reset({
         index: 0,
         routes: [{ name: "Login" as never }],
@@ -41,14 +34,12 @@ export const DashboardScreen = () => {
     }
   };
 
-  // DashboardScreen.tsx
   useEffect(() => {
     if (user) {
       fetchUserCourses(user.id)
         .then((courses) => setCourses(courses))
         .catch(console.error);
 
-      // Fetch leave requests from Firestore
       const fetchLeaveRequests = async () => {
         try {
           const leaveRequestsSnapshot = await getDocs(
@@ -56,7 +47,6 @@ export const DashboardScreen = () => {
           );
           const leaveRequestsData = leaveRequestsSnapshot.docs.map((doc) => {
             const data = doc.data();
-            console.log("Fetched leave request:", data); // Add this line to log data
             return {
               id: doc.id,
               startDate: data.startDate,
@@ -80,18 +70,21 @@ export const DashboardScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Dashboard</Text>
-        <Button title="Log Out" onPress={handleLogout} />
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Dashboard</Text>
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <Text style={styles.logoutButtonText}>Log Out</Text>
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.cardRow}>
+      {/* Main Content */}
+      <View style={styles.cardSection}>
         <QuickAccessCard
           title="Pending Assignments"
           count="3"
           onPress={() => console.log("Assignments pressed")}
         />
-
         <QuickAccessCard
           title="Unread Messages"
           count="5"
@@ -99,13 +92,12 @@ export const DashboardScreen = () => {
         />
       </View>
 
-      <View style={styles.cardRow}>
+      <View style={styles.cardSection}>
         <QuickAccessCard
           title="Attendance %"
           count="85%"
           onPress={() => console.log("Attendance pressed")}
         />
-
         <QuickAccessCard
           title="Current GPA"
           count="3.8"
@@ -113,12 +105,11 @@ export const DashboardScreen = () => {
         />
       </View>
 
-      {/* Display Leave Requests */}
       <Text style={styles.sectionTitle}>Leave Requests</Text>
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#0066ff" />
       ) : leaveRequests.length === 0 ? (
-        <Text>No leave requests found.</Text>
+        <Text style={styles.noDataText}>No leave requests found.</Text>
       ) : (
         leaveRequests.map((request) => (
           <LeaveRequestCard
@@ -142,33 +133,58 @@ export const DashboardScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    padding: 16,
+    backgroundColor: "#f2f2f2",
+    padding: 20,
   },
-
-  title: {
-    fontSize: 24,
-
-    fontWeight: "bold",
-
-    marginBottom: 20,
-  },
-  titleContainer: {
+  header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "#fff", // White background for header
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     marginBottom: 20,
+    borderRadius: 10,
+    // Subtle shadow for a modern look
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  logoutButton: {
+    backgroundColor: "#0066ff",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+  },
+  logoutButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: "bold",
-    marginVertical: 10,
+    color: "#333",
+    marginVertical: 20,
+    paddingBottom: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
   },
-  cardRow: {
+  noDataText: {
+    fontSize: 16,
+    color: "#999",
+    textAlign: "center",
+  },
+  cardSection: {
     flexDirection: "row",
-
-    justifyContent: "space-around",
-
-    marginBottom: 16,
+    justifyContent: "space-between",
+    marginBottom: 30,
   },
 });
