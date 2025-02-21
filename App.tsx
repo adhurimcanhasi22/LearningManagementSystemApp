@@ -9,6 +9,7 @@ import { AuthNavigator } from "./src/navigation/auth/AuthNavigator";
 import { AuthProvider, useAuth } from "./src/contexts/AuthContext";
 
 import LoadingScreen from "./src/components/LoadingScreen";
+import { LogBox } from "react-native";
 
 export default function App() {
   return (
@@ -31,3 +32,4 @@ const AuthWrapper = () => {
 
   return user ? <MainNavigator /> : <AuthNavigator />;
 };
+LogBox.ignoreAllLogs();
