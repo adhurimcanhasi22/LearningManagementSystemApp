@@ -1,11 +1,6 @@
 import { useState } from "react";
-
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-
 import { Calendar } from "react-native-calendars";
-
-// Removed incorrect import
-
 import { useAuth } from "../contexts/AuthContext";
 
 type AttendanceRecord = {
@@ -14,6 +9,7 @@ type AttendanceRecord = {
     dotColor: string;
     selected?: boolean;
     selectedColor?: string;
+    event?: string;
   };
 };
 
@@ -24,65 +20,54 @@ const mockAttendance: AttendanceRecord = {
     selected: true,
     selectedColor: "#2ecc71",
   },
-
   "2023-08-16": { marked: true, dotColor: "#e74c3c" },
-
   "2023-08-17": { marked: true, dotColor: "#f1c40f" },
+  "2023-08-18": { marked: true, dotColor: "#f39c12", event: "Lecture" },
+  "2023-08-19": { marked: true, dotColor: "#9b59b6", event: "Exam" },
 };
 
 const calendarTheme: any = {
   backgroundColor: "#ffffff",
-
   calendarBackground: "#ffffff",
-
-  selectedDayBackgroundColor: "#3498db",
-
-  todayTextColor: "#3498db",
-
+  selectedDayBackgroundColor: "#1abc9c",
+  todayTextColor: "#1abc9c",
   dayTextColor: "#2d3436",
-
   textDisabledColor: "#d9e1e8",
-
   monthTextColor: "#2d3436",
-
-  arrowColor: "#3498db",
+  arrowColor: "#1abc9c",
 };
-// Removed incorrect line
+
 export const AttendanceScreen = () => {
   const { user } = useAuth();
-
   const [selectedDate, setSelectedDate] = useState("");
 
   const getAttendanceStatus = (date: string) => {
     const status = mockAttendance[date];
-
     if (!status) return "No record";
-
+    if (status.event) return status.event;
     if (status.dotColor === "#2ecc71") return "Present";
-
     if (status.dotColor === "#e74c3c") return "Absent";
-
     return "Late";
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>Attendance</Text>
       <Calendar
         current={new Date().toISOString().split("T")[0]}
         onDayPress={(day) => setSelectedDate(day.dateString)}
         markedDates={{
           ...mockAttendance,
-
-          [selectedDate]: { selected: true, selectedColor: "#3498db" },
+          [selectedDate]: { selected: true, selectedColor: "#0066ff" },
         }}
         theme={calendarTheme}
+        style={styles.calendar}
       />
 
       <View style={styles.statusContainer}>
         <Text style={styles.selectedDate}>
           {selectedDate || "Select a date"}
         </Text>
-
         <Text style={styles.statusText}>
           Status: {getAttendanceStatus(selectedDate)}
         </Text>
@@ -91,7 +76,6 @@ export const AttendanceScreen = () => {
       {user?.role === "teacher" && (
         <View style={styles.teacherActions}>
           <Text style={styles.teacherText}>Teacher Actions:</Text>
-
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionText}>Mark Attendance</Text>
           </TouchableOpacity>
@@ -104,69 +88,65 @@ export const AttendanceScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     padding: 16,
+    backgroundColor: "#eef3f9", // Slightly different soft background
   },
-
+  header: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#0066ff",
+    textAlign: "center",
+    marginBottom: 16,
+  },
+  calendar: {
+    borderRadius: 12,
+    overflow: "hidden",
+    marginBottom: 20,
+    elevation: 3,
+  },
   statusContainer: {
-    marginTop: 20,
-
+    marginTop: 10,
     padding: 16,
-
     backgroundColor: "#fff",
-
-    borderRadius: 8,
-
-    elevation: 2,
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: "#0066ff",
+    elevation: 3,
   },
-
   selectedDate: {
-    fontSize: 18,
-
+    fontSize: 20,
     fontWeight: "600",
-
     marginBottom: 8,
+    color: "#2c3e50",
   },
-
   statusText: {
-    fontSize: 16,
-
-    color: "#7f8c8d",
+    fontSize: 18,
+    color: "#0066ff",
   },
-
   teacherActions: {
     marginTop: 20,
-
     padding: 16,
-
     backgroundColor: "#fff",
-
-    borderRadius: 8,
-
-    elevation: 2,
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: "#e74c3c",
+    elevation: 3,
   },
-
   teacherText: {
-    fontSize: 16,
-
+    fontSize: 18,
     fontWeight: "600",
-
     marginBottom: 12,
+    color: "#2c3e50",
   },
-
   actionButton: {
-    backgroundColor: "#3498db",
-
+    backgroundColor: "#e74c3c",
     padding: 12,
-
     borderRadius: 8,
-
     alignItems: "center",
   },
-
   actionText: {
     color: "#fff",
-
-    fontWeight: "500",
+    fontWeight: "600",
+    fontSize: 16,
   },
 });
