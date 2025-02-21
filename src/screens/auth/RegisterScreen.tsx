@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 import {
   View,
   Text,
@@ -7,8 +8,10 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+const { width, height } = Dimensions.get("window"); // Get screen dimensions
 
 export const RegisterScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState("");
@@ -20,8 +23,6 @@ export const RegisterScreen = ({ navigation }: any) => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleRegister = () => {
-    console.log("Register button pressed!"); // Debugging log
-
     if (
       !firstName ||
       !lastName ||
@@ -30,27 +31,17 @@ export const RegisterScreen = ({ navigation }: any) => {
       !password ||
       !confirmPassword
     ) {
-      console.log("Missing fields!"); // Debugging log
-      setTimeout(() => {
-        Alert.alert("Error", "Please fill out all the fields.");
-      }, 100); // Small delay to ensure alert appears
+      Alert.alert("Error", "Please fill out all the fields.");
       return;
     }
 
     if (password !== confirmPassword) {
-      console.log("Passwords do not match!"); // Debugging log
-      setTimeout(() => {
-        Alert.alert("Error", "Passwords do not match.");
-      }, 100);
+      Alert.alert("Error", "Passwords do not match.");
       return;
     }
 
-    console.log("Registration successful!"); // Debugging log
-    setTimeout(() => {
-      Alert.alert("Success", "Your account will be ready after a review.");
-    }, 100);
+    Alert.alert("Success", "Your account will be ready after a review.");
 
-    // Clear fields after successful registration
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -87,11 +78,11 @@ export const RegisterScreen = ({ navigation }: any) => {
       <View style={styles.phoneContainer}>
         <Picker
           selectedValue={countryCode}
-          style={styles.picker}
+          style={[styles.picker, { width: width * 0.3 }]} // Make the picker width responsive
           onValueChange={(itemValue) => setCountryCode(itemValue)}
         >
-          <Picker.Item label="Kosovo (+383)" value="+383" />
-          <Picker.Item label="Albania (+355)" value="+355" />
+          <Picker.Item label="+383" value="+383" />
+          <Picker.Item label="+355" value="+355" />
         </Picker>
         <TextInput
           style={styles.phoneInput}
@@ -117,7 +108,9 @@ export const RegisterScreen = ({ navigation }: any) => {
         onChangeText={setConfirmPassword}
       />
 
-      <Button title="Register" onPress={handleRegister} />
+      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+        <Text style={styles.registerButtonText}>Register</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => navigation.goBack()}
@@ -133,21 +126,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f4f6fc", // Light background
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
+    color: "#333",
     marginBottom: 20,
-    textAlign: "center",
   },
   input: {
-    height: 40,
-    borderColor: "gray",
+    width: "100%",
+    height: 50,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    fontSize: 16,
     borderWidth: 1,
+    borderColor: "#ddd",
     marginBottom: 15,
-    padding: 10,
-    borderRadius: 5,
   },
   phoneContainer: {
     flexDirection: "row",
@@ -155,24 +153,39 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   picker: {
-    width: 120,
     height: 40,
     marginRight: 10,
+    borderRadius: 12
   },
   phoneInput: {
     flex: 1,
     height: 40,
-    borderColor: "gray",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    fontSize: 16,
     borderWidth: 1,
-    padding: 10,
-    borderRadius: 5,
+    borderColor: "#ddd",
+  },
+  registerButton: {
+    width: "100%",
+    backgroundColor: "#0066ff",
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  registerButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   backButton: {
     marginTop: 10,
     alignItems: "center",
   },
   backText: {
-    color: "blue",
+    color: "#0066ff",
     fontSize: 16,
   },
 });
